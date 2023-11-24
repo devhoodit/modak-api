@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 Codec<String, String> stringToBase64 = utf8.fuse(base64);
 
@@ -23,5 +24,13 @@ class Token {
     final exp = DateTime.fromMillisecondsSinceEpoch(jsonBody["exp"] * 1000);
 
     return Token(uuid, exp, tokenString);
+  }
+
+  // must refac, hard coded, no error handling
+  static Future<Token?> githubOAuthCallback(String callbackURL) async {
+    var res = await http.get(Uri.parse(callbackURL));
+    if (res.statusCode != 200) return null;
+    var body = json.decode(res.body);
+    return Token.parseFromString(body['token']);
   }
 }
