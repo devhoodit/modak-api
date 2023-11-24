@@ -19,19 +19,19 @@ Map<String, dynamic> _$CollectionsToJson(Collections instance) =>
 
 Collection _$CollectionFromJson(Map<String, dynamic> json) => Collection(
       json['uuid'] as String,
-      json['collectionIndex'] as int,
-      (json['longtitude'] as num).toDouble(),
-      (json['latitude'] as num).toDouble(),
-      (json['altitude'] as num).toDouble(),
-      Collection._dateFromJson(json['originAt'] as String),
+      json['index'] as int,
+      (json['long'] as num).toDouble(),
+      (json['lat'] as num).toDouble(),
+      (json['alt'] as num).toDouble(),
+      Collection._dateFromJson(json['origin_at'] as String),
     );
 
 Map<String, dynamic> _$CollectionToJson(Collection instance) =>
     <String, dynamic>{
       'uuid': instance.uuid,
-      'collectionIndex': instance.collectionIndex,
-      'longtitude': instance.longtitude,
-      'latitude': instance.latitude,
-      'altitude': instance.altitude,
-      'originAt': Collection._dateToJson(instance.originAt),
+      'index': instance.index,
+      'long': instance.longtitude,
+      'lat': instance.latitude,
+      'alt': instance.altitude,
+      'origin_at': Collection._dateToJson(instance.originAt),
     };
