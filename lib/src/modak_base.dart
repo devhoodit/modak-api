@@ -1,6 +1,15 @@
-// TODO: Put public facing types in this file.
+class Endpoint {
+  final String host;
+  Endpoint({
+    this.host = "hocalhost:8080",
+  });
+}
 
-/// Checks if you are awesome. Spoiler: you are.
-class Awesome {
-  bool get isAwesome => true;
+class Modak {
+  late Endpoint endpoint;
+  Modak({
+    Endpoint? endpoint,
+  }) {
+    this.endpoint = endpoint ?? Endpoint();
+  }
 }
