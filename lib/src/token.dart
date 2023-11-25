@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
-import 'package:http/http.dart' as http;
 
 Codec<String, String> stringToBase64 = utf8.fuse(base64);
 

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 import 'package:json_annotation/json_annotation.dart';
 import 'package:modak/src/api/auth.dart';
@@ -46,8 +48,9 @@ class CollectionAPI {
   AuthorizeRequired auth;
   CollectionAPI(this.token, this.endpoint) : auth = AuthorizeRequired(token);
 
-  Collections getCollections() {
-    http.get(Uri(path: endpoint.host), headers: auth.addTokenHeader());
-    return Collections([]);
+  Future<Collections> getCollections() async {
+    final res = await http.get(Uri(path: endpoint.host),
+        headers: auth.addTokenHeader());
+    return Collections.fromJson(jsonDecode(res.body));
   }
 }

@@ -1,6 +1,4 @@
 import 'package:modak/modak.dart';
+import 'package:modak/src/token.dart';
 
-void main() {
-  var awesome = Awesome();
-  print('awesome: ${awesome.isAwesome}');
-}
+void main() async {}
