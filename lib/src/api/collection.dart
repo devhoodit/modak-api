@@ -49,7 +49,13 @@ class CollectionAPI {
   CollectionAPI(this.token, this.endpoint) : auth = AuthorizeRequired(token);
 
   Future<Collections> getCollections() async {
-    final res = await http.get(Uri(path: endpoint.host),
+    final res = await http.get(
+        Uri(
+            scheme: "http",
+            host: endpoint.host,
+            port: endpoint.port,
+            path: "collect",
+            queryParameters: {"offset": "0", "limit": "5"}),
         headers: auth.addTokenHeader());
     return Collections.fromJson(jsonDecode(res.body));
   }
