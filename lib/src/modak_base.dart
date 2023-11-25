@@ -3,9 +3,8 @@ import 'package:modak/src/api/collection.dart';
 
 class Endpoint {
   final String host;
-  Endpoint({
-    this.host = "hocalhost:8080",
-  });
+  final int port;
+  Endpoint({this.host = "hocalhost", this.port = 8080});
 }
 
 class Modak {
