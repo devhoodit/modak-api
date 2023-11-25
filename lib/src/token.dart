@@ -17,7 +17,10 @@ class Token {
     if (splitString.length != 2) {
       throw Exception("Invalid token string");
     }
-    final tokenBody = splitString[0];
+    String tokenBody = splitString[0];
+    if (tokenBody.length % 4 != 0) {
+      tokenBody += "=" * (4 - tokenBody.length % 4);
+    }
     final decodedBody = stringToBase64.decode(tokenBody);
     Map<String, dynamic> jsonBody = jsonDecode(decodedBody);
 
@@ -25,15 +28,5 @@ class Token {
     final exp = DateTime.fromMillisecondsSinceEpoch(jsonBody["exp"] * 1000);
 
     return Token(uuid, exp, tokenString);
-  }
-
-  // must refac, hard coded, no error handling
-  static Future<Token?> githubOAuthCallback(
-      String callbackURL, String cookieState) async {
-    var res = await http
-        .get(Uri.parse(callbackURL), headers: {"Cookie": "state=$cookieState"});
-    if (res.statusCode != 200) return null;
-    var body = json.decode(res.body);
-    return Token.parseFromString(body['token']);
   }
 }
