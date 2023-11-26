@@ -68,7 +68,9 @@ class CollectionAPI {
           host: endpoint.host,
           port: endpoint.port,
         ),
-        body: bytes);
+        body: bytes,
+        headers: auth.addTokenHeader(
+            header: {"glong": "0", "gla": "0", "gal": "0", "gacc": "0"}));
     if (res.statusCode != 200) return false;
     return true;
   }
