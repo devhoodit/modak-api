@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:http/http.dart' as http;
 import 'package:json_annotation/json_annotation.dart';
@@ -58,5 +59,17 @@ class CollectionAPI {
             queryParameters: {"offset": "0", "limit": "5"}),
         headers: auth.addTokenHeader());
     return Collections.fromJson(jsonDecode(res.body));
+  }
+
+  Future<bool> postCollection(Uint8List bytes) async {
+    final res = await http.post(
+        Uri(
+          scheme: "http",
+          host: endpoint.host,
+          port: endpoint.port,
+        ),
+        body: bytes);
+    if (res.statusCode != 200) return false;
+    return true;
   }
 }
