@@ -61,16 +61,22 @@ class CollectionAPI {
     return Collections.fromJson(jsonDecode(res.body));
   }
 
-  Future<bool> postCollection(Uint8List bytes) async {
+  Future<bool> postCollection(
+      Uint8List bytes, double long, double lat, double alt, double acc) async {
     final res = await http.post(
         Uri(
           scheme: "http",
           host: endpoint.host,
           port: endpoint.port,
+          path: "collect/",
         ),
         body: bytes,
-        headers: auth.addTokenHeader(
-            header: {"glong": "0", "gla": "0", "gal": "0", "gacc": "0"}));
+        headers: auth.addTokenHeader(header: {
+          "glong": "$long",
+          "gla": "$lat",
+          "gal": "$alt",
+          "gacc": "$acc"
+        }));
     if (res.statusCode != 200) return false;
     return true;
   }
