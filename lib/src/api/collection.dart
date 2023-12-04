@@ -56,7 +56,7 @@ class CollectionAPI {
             host: endpoint.host,
             port: endpoint.port,
             path: "collect",
-            queryParameters: {"offset": "0", "limit": "5"}),
+            queryParameters: {"offset": "0", "limit": "100"}),
         headers: auth.addTokenHeader());
     return Collections.fromJson(jsonDecode(res.body));
   }
