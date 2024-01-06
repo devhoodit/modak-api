@@ -4,7 +4,9 @@ import 'package:modak/src/api/collection.dart';
 class Endpoint {
   final String host;
   final int port;
-  Endpoint({this.host = "hocalhost", this.port = 8080});
+  final String baseurl;
+  Endpoint({required this.host, required this.port})
+      : baseurl = "https://$host:$port";
 }
 
 class Modak {
@@ -13,9 +15,8 @@ class Modak {
   late CollectionAPI collection;
   Modak({
     required this.token,
-    Endpoint? endpoint,
+    required endpoint,
   }) {
-    this.endpoint = endpoint ?? Endpoint();
-    collection = CollectionAPI(token, this.endpoint);
+    collection = CollectionAPI(token, endpoint);
   }
 }
