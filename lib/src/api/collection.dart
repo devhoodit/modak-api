@@ -1,40 +1,45 @@
 import 'dart:convert';
-import 'dart:typed_data';
-
 import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
+
 import 'package:json_annotation/json_annotation.dart';
 import 'package:modak/src/api/auth.dart';
+import 'package:modak/src/api/request.dart';
 import 'package:modak/src/modak_base.dart';
 import 'package:modak/src/token.dart';
 
 part 'collection.g.dart';
 
 @JsonSerializable()
-class Collections {
-  @JsonKey(name: "collections")
-  List<Collection> collections;
-
-  Collections(this.collections);
-  factory Collections.fromJson(Map<String, dynamic> json) =>
-      _$CollectionsFromJson(json);
-  Map<String, dynamic> toJson() => _$CollectionsToJson(this);
+class GeoLocation {
+  final double longtitude;
+  final double latitude;
+  final double altitude;
+  @JsonKey(name: "acc")
+  final double accuracy;
+  GeoLocation(this.longtitude, this.latitude, this.altitude, this.accuracy);
+  factory GeoLocation.fromJson(Map<String, dynamic> json) =>
+      _$GeoLocationFromJson(json);
+  Map<String, dynamic> toJson() => _$GeoLocationToJson(this);
 }
 
 @JsonSerializable()
-class Collection {
-  final String uuid;
-  final int index;
-  @JsonKey(name: "long")
-  final double longtitude;
-  @JsonKey(name: "lat")
-  final double latitude;
-  @JsonKey(name: "alt")
-  final double altitude;
-  @JsonKey(name: "origin_at", fromJson: _dateFromJson, toJson: _dateToJson)
-  final DateTime originAt;
+class CollectionsUUID {
+  final List<String> collections;
+  CollectionsUUID(this.collections);
+  factory CollectionsUUID.fromJson(Map<String, dynamic> json) =>
+      _$CollectionsUUIDFromJson(json);
+  Map<String, dynamic> toJson() => _$CollectionsUUIDToJson(this);
+}
 
-  Collection(this.uuid, this.index, this.longtitude, this.latitude,
-      this.altitude, this.originAt);
+@JsonSerializable(explicitToJson: true)
+class Collection {
+  final int index;
+  final GeoLocation geolocation;
+  @JsonKey(fromJson: _dateFromJson, toJson: _dateToJson)
+  final DateTime datetime;
+
+  Collection(this.index, this.geolocation, this.datetime);
   factory Collection.fromJson(Map<String, dynamic> json) =>
       _$CollectionFromJson(json);
   Map<String, dynamic> toJson() => _$CollectionToJson(this);
@@ -46,38 +51,44 @@ class Collection {
 class CollectionAPI {
   Token token;
   Endpoint endpoint;
-  AuthorizeRequired auth;
-  CollectionAPI(this.token, this.endpoint) : auth = AuthorizeRequired(token);
+  CollectionAPI(this.token, this.endpoint);
 
-  Future<Collections> getCollections() async {
-    final res = await http.get(
-        Uri(
-            scheme: "http",
-            host: endpoint.host,
-            port: endpoint.port,
-            path: "collect",
-            queryParameters: {"offset": "0", "limit": "100"}),
-        headers: auth.addTokenHeader());
-    return Collections.fromJson(jsonDecode(res.body));
+  Future<List<String>> getCollectionsUUID() async {
+    final collectionsUUID = await APIRequest.getWithToken(
+        "${endpoint.baseurl}/collection", CollectionsUUID.fromJson, token);
+    return collectionsUUID.collections;
   }
 
-  Future<bool> postCollection(
-      Uint8List bytes, double long, double lat, double alt, double acc) async {
-    final res = await http.post(
-        Uri(
-          scheme: "http",
-          host: endpoint.host,
-          port: endpoint.port,
-          path: "collect/",
-        ),
-        body: bytes,
-        headers: auth.addTokenHeader(header: {
-          "glong": "$long",
-          "gla": "$lat",
-          "gal": "$alt",
-          "gacc": "$acc"
-        }));
-    if (res.statusCode != 200) return false;
-    return true;
+  Future<Collection> getCollectionByUUID(String uuid) async {
+    final collection = await APIRequest.getWithToken(
+        "${endpoint.baseurl}/collection/$uuid", Collection.fromJson, token);
+    return collection;
+  }
+
+  Future<String> postCollection(String imagePath, Collection collection) async {
+    final client = http.MultipartRequest(
+        'post',
+        Uri.parse(
+          "${endpoint.baseurl}/collection",
+        ));
+
+    final jsonData = json.encode(collection.toJson());
+    final jsonObj = http.MultipartFile.fromString('collection', jsonData,
+        contentType: MediaType('applicaton', 'json'));
+    client.files.add(jsonObj);
+
+    final imageFile =
+        await http.MultipartFile.fromPath('file.image', imagePath);
+    client.files.add(imageFile);
+    final streamResponse = await client.send();
+
+    final res = await http.Response.fromStream(streamResponse);
+    final jsonBody = json.decode(res.body);
+    if (streamResponse.statusCode == 401) {
+      throw AuthenticationError(jsonBody["message"]);
+    } else if (streamResponse.statusCode != 200) {
+      throw Exception("status code: ${streamResponse.statusCode}, ${res.body}");
+    }
+    return jsonBody["uuid"];
   }
 }
