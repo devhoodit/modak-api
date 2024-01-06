@@ -6,32 +6,40 @@ part of 'collection.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Collections _$CollectionsFromJson(Map<String, dynamic> json) => Collections(
-      (json['collections'] as List<dynamic>)
-          .map((e) => Collection.fromJson(e as Map<String, dynamic>))
-          .toList(),
+GeoLocation _$GeoLocationFromJson(Map<String, dynamic> json) => GeoLocation(
+      (json['longtitude'] as num).toDouble(),
+      (json['latitude'] as num).toDouble(),
+      (json['altitude'] as num).toDouble(),
+      (json['acc'] as num).toDouble(),
     );
 
-Map<String, dynamic> _$CollectionsToJson(Collections instance) =>
+Map<String, dynamic> _$GeoLocationToJson(GeoLocation instance) =>
+    <String, dynamic>{
+      'longtitude': instance.longtitude,
+      'latitude': instance.latitude,
+      'altitude': instance.altitude,
+      'acc': instance.accuracy,
+    };
+
+CollectionsUUID _$CollectionsUUIDFromJson(Map<String, dynamic> json) =>
+    CollectionsUUID(
+      (json['collections'] as List<dynamic>).map((e) => e as String).toList(),
+    );
+
+Map<String, dynamic> _$CollectionsUUIDToJson(CollectionsUUID instance) =>
     <String, dynamic>{
       'collections': instance.collections,
     };
 
 Collection _$CollectionFromJson(Map<String, dynamic> json) => Collection(
-      json['uuid'] as String,
       json['index'] as int,
-      (json['long'] as num).toDouble(),
-      (json['lat'] as num).toDouble(),
-      (json['alt'] as num).toDouble(),
-      Collection._dateFromJson(json['origin_at'] as String),
+      GeoLocation.fromJson(json['geolocation'] as Map<String, dynamic>),
+      Collection._dateFromJson(json['datetime'] as String),
     );
 
 Map<String, dynamic> _$CollectionToJson(Collection instance) =>
     <String, dynamic>{
-      'uuid': instance.uuid,
       'index': instance.index,
-      'long': instance.longtitude,
-      'lat': instance.latitude,
-      'alt': instance.altitude,
-      'origin_at': Collection._dateToJson(instance.originAt),
+      'geolocation': instance.geolocation.toJson(),
+      'datetime': Collection._dateToJson(instance.datetime),
     };
