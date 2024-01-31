@@ -6,9 +6,9 @@ import 'package:modak/src/api/auth/auth.dart';
 
 abstract interface class IAPIRequest {
   Future<T> get<T, G>(String url, T Function(G json) task,
-      [Map<String, String>? headers]);
+      {Map<String, String>? headers});
   Future<T> post<T, G>(String url, T Function(G json) task,
-      [Object? body, Map<String, String>? headers]);
+      {Object? body, Map<String, String>? headers});
 }
 
 class AuthenticationError implements Exception {
@@ -27,10 +27,10 @@ class APIRequest implements IAPIRequest {
   static final APIRequest _instance = APIRequest._init();
   factory APIRequest() => _instance;
   Future<T> getWithToken<T, G>(String url, T Function(G json) task, Token token,
-      [Map<String, String>? headers]) async {
+      {Map<String, String>? headers}) async {
     final reqheaders = addTokenHeader(token, header: headers);
     try {
-      return await get(url, task, reqheaders);
+      return await get(url, task, headers: reqheaders);
     } catch (e) {
       rethrow;
     }
@@ -38,10 +38,10 @@ class APIRequest implements IAPIRequest {
 
   Future<T> postWithToken<T, G>(
       String url, T Function(G json) task, Token token,
-      [Object? body, Map<String, String>? headers]) async {
+      {Object? body, Map<String, String>? headers}) async {
     final reqheaders = addTokenHeader(token, header: headers);
     try {
-      return await post(url, task, body, reqheaders);
+      return await post(url, task, body: body, headers: reqheaders);
     } catch (e) {
       rethrow;
     }
@@ -49,7 +49,7 @@ class APIRequest implements IAPIRequest {
 
   @override
   Future<T> get<T, G>(String url, T Function(G json) task,
-      [Map<String, String>? headers]) async {
+      {Map<String, String>? headers}) async {
     final res = await http.get(Uri.parse(url), headers: headers);
     final j = json.decode(res.body);
     switch (res.statusCode) {
@@ -64,7 +64,7 @@ class APIRequest implements IAPIRequest {
 
   @override
   Future<T> post<T, G>(String url, T Function(G json) task,
-      [Object? body, Map<String, String>? headers]) async {
+      {Object? body, Map<String, String>? headers}) async {
     final res = await http.post(Uri.parse(url), headers: headers, body: body);
     final j = json.decode(res.body);
     switch (res.statusCode) {
