@@ -1,22 +1,18 @@
 import 'package:modak/modak.dart';
-import 'package:modak/src/api/collection.dart';
-
-class Endpoint {
-  final String host;
-  final int port;
-  final String baseurl;
-  Endpoint({required this.host, required this.port})
-      : baseurl = "https://$host:$port";
-}
+import 'package:modak/src/api/auth/auth.dart';
+import 'package:modak/src/api/collection/collection.dart';
+import 'package:modak/src/api/endpoint.dart';
 
 class Modak {
-  Token token;
   late Endpoint endpoint;
+  late AuthAPI auth;
   late CollectionAPI collection;
   Modak({
-    required this.token,
-    required endpoint,
+    required Token token,
+    required String refreshToken,
+    required this.endpoint,
   }) {
-    collection = CollectionAPI(token, endpoint);
+    auth = AuthAPI(token, refreshToken, endpoint);
+    collection = CollectionAPI(auth, endpoint);
   }
 }
