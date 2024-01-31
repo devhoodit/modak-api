@@ -1,4 +1,7 @@
 class Endpoint {
-  String host;
-  Endpoint(this.host);
+  final String host;
+  final int port;
+  final String baseurl;
+  Endpoint({required this.host, required this.port})
+      : baseurl = "http://$host:$port";
 }
