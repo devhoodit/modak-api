@@ -24,7 +24,7 @@ class Token {
   static Token parseFromString(String tokenString) {
     final splitString = tokenString.split(".");
     if (splitString.length != 2) {
-      throw Exception("Invalid token string");
+      throw NoValidTokenError("invalid token string");
     }
     String tokenBody = splitString[0];
     if (tokenBody.length % 4 != 0) {
