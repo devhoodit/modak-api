@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:http/src/multipart_file.dart';
+import 'package:http/http.dart';
 import 'package:modak/src/api/auth/auth_dto.dart';
 import 'package:modak/src/api/endpoint.dart';
 import 'package:modak/src/api/request.dart';

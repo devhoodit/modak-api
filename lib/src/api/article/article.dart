@@ -4,7 +4,6 @@ import 'package:http_parser/http_parser.dart';
 
 import 'package:modak/src/api/article/article_dto.dart';
 import 'package:modak/src/api/auth/auth.dart';
-import 'package:modak/src/api/collection/collection_dto.dart';
 import 'package:modak/src/api/request.dart';
 import 'package:modak/src/api/endpoint.dart';
 
