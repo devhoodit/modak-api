@@ -29,7 +29,8 @@ class TestConfig {
 @JsonSerializable()
 class SpecificTestConfig {
   final CollectionTestConfig collection;
-  SpecificTestConfig(this.collection);
+  final AuthTestConfig auth;
+  SpecificTestConfig(this.collection, this.auth);
   factory SpecificTestConfig.fromJson(Map<String, dynamic> json) =>
       _$SpecificTestConfigFromJson(json);
   Map<String, dynamic> toJson() => _$SpecificTestConfigToJson(this);
@@ -43,4 +44,16 @@ class CollectionTestConfig {
   factory CollectionTestConfig.fromJson(Map<String, dynamic> json) =>
       _$CollectionTestConfigFromJson(json);
   Map<String, dynamic> toJson() => _$CollectionTestConfigToJson(this);
+}
+
+@JsonSerializable()
+class AuthTestConfig {
+  @JsonKey(name: "invalid_token")
+  List<String> invalidTokens;
+  @JsonKey(name: "no_uuid_token")
+  List<String> noUUIDTokens;
+  AuthTestConfig(this.invalidTokens, this.noUUIDTokens);
+  factory AuthTestConfig.fromJson(Map<String, dynamic> json) =>
+      _$AuthTestConfigFromJson(json);
+  Map<String, dynamic> toJson() => _$AuthTestConfigToJson(this);
 }
