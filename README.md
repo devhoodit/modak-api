@@ -9,5 +9,5 @@ Modak API
 DTO use json serialize
 
 ```bash
-dart run build_runner build --delet-conflicting-outputs
+dart run build_runner build --delete-conflicting-outputs
 ```
