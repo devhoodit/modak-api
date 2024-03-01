@@ -33,8 +33,8 @@ class Token {
     final decodedBody = stringToBase64.decode(tokenBody);
     Map<String, dynamic> jsonBody = jsonDecode(decodedBody);
 
-    if (!jsonBody.containsKey("uuid")) throw NoValidTokenError("no uuid");
-    final String uuid = jsonBody["uuid"];
+    if (!jsonBody.containsKey("user")) throw NoValidTokenError("no uuid");
+    final String uuid = jsonBody["user"];
     final exp = DateTime.fromMillisecondsSinceEpoch(jsonBody["exp"] * 1000);
 
     return Token(uuid, exp, tokenString);
