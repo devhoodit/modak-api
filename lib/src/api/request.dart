@@ -90,7 +90,6 @@ class APIRequest implements IAPIRequest {
     client.files.addAll(files);
     final streamResponse = await client.send();
     final res = await http.Response.fromStream(streamResponse);
-    print(res.body);
     final j = json.decode(res.body);
     switch (streamResponse.statusCode) {
       case 200:
