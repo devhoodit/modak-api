@@ -7,7 +7,7 @@ import 'setup_dto.dart';
 
 void main() {
   final testConfig = loadTestConfig();
-  print(testConfig);
+  print(testConfig.test.auth.invalidTokens);
 }
 
 TestConfig loadTestConfig() {
