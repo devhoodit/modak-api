@@ -1,0 +1,10 @@
+host: "localhost"
+port: 1234
+
+# universally use this token when need authentication
+access_token: "access token"
+refresh_token: "refresh token"
+
+tests:
+  collection:
+    collectionUUID: "collection uuid"
