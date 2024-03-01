@@ -8,3 +8,11 @@ refresh_token: "refresh token"
 tests:
   collection:
     collectionUUID: "collection uuid"
+  auth:
+    invalid_token:
+      - "INVALID TOKEN"
+      - "invalid_token"
+      - "invalidToken"
+    no_uuid_token:
+      - "invalid.token"
+      - "INVALID.TOKEN"
