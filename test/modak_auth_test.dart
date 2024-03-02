@@ -4,7 +4,6 @@ import 'package:modak/src/token.dart';
 import 'package:test/test.dart';
 
 import 'setup.dart';
-import 'setup_dto.dart';
 
 void main() {
   late String accessToken;
