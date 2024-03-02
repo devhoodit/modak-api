@@ -19,5 +19,6 @@ tests:
     collectionUUID: "collection uuid"
 
   article:
-    user: "test user uuid"
+    # user: "test user uuid"
+    collectionUUID: "collection uuid"
     link: "test article link"
