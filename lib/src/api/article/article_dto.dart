@@ -9,10 +9,12 @@ class Article {
   final String content;
   @JsonKey(name: "update_at", fromJson: _dateFromJson, toJson: _dateToJson)
   final DateTime? updateAt;
-  @JsonKey(name: "collections", includeToJson: false)
-  final CollectionsUUID collectionsUUID;
-
-  Article(this.title, this.content, this.updateAt, this.collectionsUUID);
+  @JsonKey(name: "collections")
+  final List<OrderInfo> collections;
+  @JsonKey(name: "images")
+  final List<OrderInfo> images;
+  Article(
+      this.title, this.content, this.updateAt, this.collections, this.images);
   factory Article.fromJson(Map<String, dynamic> json) =>
       _$ArticleFromJson(json);
   Map<String, dynamic> toJson() => _$ArticleToJson(this);
@@ -36,7 +38,7 @@ class PostArticle {
   final String title;
   final String content;
   @JsonKey(name: "collections")
-  final List<CollectionOrderInfo> collectionOrderInfo;
+  final List<OrderInfo> collectionOrderInfo;
   PostArticle(this.title, this.content, this.collectionOrderInfo);
   factory PostArticle.fromJson(Map<String, dynamic> json) =>
       _$PostArticleFromJson(json);
@@ -44,11 +46,11 @@ class PostArticle {
 }
 
 @JsonSerializable()
-class CollectionOrderInfo {
+class OrderInfo {
   final String uuid;
   final int order;
-  CollectionOrderInfo(this.uuid, this.order);
-  factory CollectionOrderInfo.fromJson(Map<String, dynamic> json) =>
-      _$CollectionOrderInfoFromJson(json);
-  Map<String, dynamic> toJson() => _$CollectionOrderInfoToJson(this);
+  OrderInfo(this.uuid, this.order);
+  factory OrderInfo.fromJson(Map<String, dynamic> json) =>
+      _$OrderInfoFromJson(json);
+  Map<String, dynamic> toJson() => _$OrderInfoToJson(this);
 }

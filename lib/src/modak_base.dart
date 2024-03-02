@@ -5,12 +5,13 @@ import 'package:modak/src/api/collection/collection.dart';
 import 'package:modak/src/api/endpoint.dart';
 
 class Modak {
+  final Token token;
   late Endpoint endpoint;
   late AuthAPI auth;
   late CollectionAPI collection;
   late ArticleAPI article;
   Modak({
-    required Token token,
+    required this.token,
     required String refreshToken,
     required this.endpoint,
   }) {

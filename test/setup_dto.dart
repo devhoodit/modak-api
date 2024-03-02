@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:modak/modak.dart';
+import 'package:modak/src/api/article/article_dto.dart';
 import 'package:modak/src/api/endpoint.dart';
 
 part 'setup_dto.g.dart';
@@ -30,10 +31,23 @@ class TestConfig {
 class SpecificTestConfig {
   final CollectionTestConfig collection;
   final AuthTestConfig auth;
-  SpecificTestConfig(this.collection, this.auth);
+  final ArticleTestConfig article;
+  SpecificTestConfig(this.collection, this.auth, this.article);
   factory SpecificTestConfig.fromJson(Map<String, dynamic> json) =>
       _$SpecificTestConfigFromJson(json);
   Map<String, dynamic> toJson() => _$SpecificTestConfigToJson(this);
+}
+
+@JsonSerializable()
+class AuthTestConfig {
+  @JsonKey(name: "invalid_token")
+  List<String> invalidTokens;
+  @JsonKey(name: "no_uuid_token")
+  List<String> noUUIDTokens;
+  AuthTestConfig(this.invalidTokens, this.noUUIDTokens);
+  factory AuthTestConfig.fromJson(Map<String, dynamic> json) =>
+      _$AuthTestConfigFromJson(json);
+  Map<String, dynamic> toJson() => _$AuthTestConfigToJson(this);
 }
 
 @JsonSerializable()
@@ -47,13 +61,11 @@ class CollectionTestConfig {
 }
 
 @JsonSerializable()
-class AuthTestConfig {
-  @JsonKey(name: "invalid_token")
-  List<String> invalidTokens;
-  @JsonKey(name: "no_uuid_token")
-  List<String> noUUIDTokens;
-  AuthTestConfig(this.invalidTokens, this.noUUIDTokens);
-  factory AuthTestConfig.fromJson(Map<String, dynamic> json) =>
-      _$AuthTestConfigFromJson(json);
-  Map<String, dynamic> toJson() => _$AuthTestConfigToJson(this);
+class ArticleTestConfig {
+  final String collectionUUID;
+  final String link;
+  ArticleTestConfig(this.collectionUUID, this.link);
+  factory ArticleTestConfig.fromJson(Map<String, dynamic> json) =>
+      _$ArticleTestConfigFromJson(json);
+  Map<String, dynamic> toJson() => _$ArticleTestConfigToJson(this);
 }

@@ -18,11 +18,8 @@ class ArticleAPI {
     return article;
   }
 
-  Future<void> postArticle(
-      String title,
-      String content,
-      List<CollectionOrderInfo> collectionOrderInfo,
-      List<String> imagePaths) async {
+  Future<void> postArticle(String title, String content,
+      List<OrderInfo> collectionOrderInfo, List<String> imagePaths) async {
     var multipartFiles = <http.MultipartFile>[];
     final postArticle = PostArticle(title, content, collectionOrderInfo);
     final jsonData = json.encode(postArticle.toJson());
