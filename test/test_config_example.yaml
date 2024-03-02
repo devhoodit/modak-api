@@ -6,8 +6,6 @@ access_token: "access token"
 refresh_token: "refresh token"
 
 tests:
-  collection:
-    collectionUUID: "collection uuid"
   auth:
     invalid_token:
       - "INVALID TOKEN"
@@ -16,3 +14,10 @@ tests:
     no_uuid_token:
       - "invalid.token"
       - "INVALID.TOKEN"
+
+  collection:
+    collectionUUID: "collection uuid"
+
+  article:
+    user: "test user uuid"
+    link: "test article link"
