@@ -1,6 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:modak/modak.dart';
-import 'package:modak/src/api/article/article_dto.dart';
 import 'package:modak/src/api/endpoint.dart';
 
 part 'setup_dto.g.dart';
