@@ -41,12 +41,18 @@ AuthTestConfig _$AuthTestConfigFromJson(Map<String, dynamic> json) =>
     AuthTestConfig(
       (json['invalid_token'] as List<dynamic>).map((e) => e as String).toList(),
       (json['no_uuid_token'] as List<dynamic>).map((e) => e as String).toList(),
+      (json['expired_token'] as List<dynamic>).map((e) => e as String).toList(),
+      (json['not_expired_token'] as List<dynamic>)
+          .map((e) => e as String)
+          .toList(),
     );
 
 Map<String, dynamic> _$AuthTestConfigToJson(AuthTestConfig instance) =>
     <String, dynamic>{
       'invalid_token': instance.invalidTokens,
       'no_uuid_token': instance.noUUIDTokens,
+      'expired_token': instance.expiredTokens,
+      'not_expired_token': instance.notExpiredToken,
     };
 
 CollectionTestConfig _$CollectionTestConfigFromJson(
