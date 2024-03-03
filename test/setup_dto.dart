@@ -43,7 +43,12 @@ class AuthTestConfig {
   List<String> invalidTokens;
   @JsonKey(name: "no_uuid_token")
   List<String> noUUIDTokens;
-  AuthTestConfig(this.invalidTokens, this.noUUIDTokens);
+  @JsonKey(name: "expired_token")
+  List<String> expiredTokens;
+  @JsonKey(name: "not_expired_token")
+  List<String> notExpiredToken;
+  AuthTestConfig(this.invalidTokens, this.noUUIDTokens, this.expiredTokens,
+      this.notExpiredToken);
   factory AuthTestConfig.fromJson(Map<String, dynamic> json) =>
       _$AuthTestConfigFromJson(json);
   Map<String, dynamic> toJson() => _$AuthTestConfigToJson(this);
