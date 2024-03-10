@@ -28,26 +28,6 @@ class APIRequest implements IAPIRequest {
   APIRequest._init();
   static final APIRequest _instance = APIRequest._init();
   factory APIRequest() => _instance;
-  Future<T> getWithToken<T, G>(String url, T Function(G json) task, Token token,
-      {Map<String, String>? headers}) async {
-    final reqheaders = addTokenHeader(token, header: headers);
-    try {
-      return await get(url, task, headers: reqheaders);
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  Future<T> postWithToken<T, G>(
-      String url, T Function(G json) task, Token token,
-      {Object? body, Map<String, String>? headers}) async {
-    final reqheaders = addTokenHeader(token, header: headers);
-    try {
-      return await post(url, task, body: body, headers: reqheaders);
-    } catch (e) {
-      rethrow;
-    }
-  }
 
   @override
   Future<T> get<T, G>(String url, T Function(G json) task,

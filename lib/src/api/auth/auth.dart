@@ -30,11 +30,10 @@ class AuthAPI implements IAPIRequest {
   Future<T> get<T, G>(String url, T Function(G json) task,
       {Map<String, String>? headers}) async {
     try {
-      return await APIRequest().getWithToken(url, task, token);
+      return await APIRequest().get(url, task, headers: addTokenHeader(token));
     } on AuthenticationError catch (e) {
       await refreshToken();
-      return await APIRequest()
-          .getWithToken(url, task, token, headers: headers);
+      return await APIRequest().get(url, task, headers: addTokenHeader(token));
     } catch (e) {
       rethrow;
     }
@@ -44,7 +43,6 @@ class AuthAPI implements IAPIRequest {
     if (!token.isExpired()) {
       throw Exception("token is not expired yet");
     }
-    print("ASDFASDF");
     final refreshTokenRes = await post(
         "${endpoint.baseurl}/auth/refresh", RefreshTokenRes.fromJson,
         body: json.encode(<String, String>{"refresh_token": _refreshToken}));
@@ -57,11 +55,11 @@ class AuthAPI implements IAPIRequest {
       {Object? body, Map<String, String>? headers}) async {
     try {
       return await APIRequest()
-          .postWithToken(url, task, token, body: body, headers: headers);
+          .post(url, task, body: body, headers: addTokenHeader(token));
     } on AuthenticationError catch (e) {
       await refreshToken();
       return await APIRequest()
-          .postWithToken(url, task, token, body: body, headers: headers);
+          .post(url, task, body: body, headers: addTokenHeader(token));
     } catch (e) {
       rethrow;
     }
