@@ -42,6 +42,6 @@ class ArticleAPI {
   }
 
   Future<void> deleteArticleByLink(String link) async {
-    throw UnimplementedError();
+    await auth.delete("${endpoint.baseurl}/article/$link");
   }
 }
