@@ -34,9 +34,9 @@ class ArticleAPI {
         "${endpoint.baseurl}/article", (json) => null, multipartFiles);
   }
 
-  Future<ArticleLinks> getLinksByUserUUID(String userUUID) async {
+  Future<ArticleLinks> getLinksByUsername(String username) async {
     final links = await auth.get(
-        "${endpoint.baseurl}/article/get-links/$userUUID",
+        "${endpoint.baseurl}/article/get-links/$username",
         ArticleLinks.fromJson);
     return links.data;
   }
