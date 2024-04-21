@@ -37,4 +37,8 @@ class CollectionAPI {
         multipatFiles);
     return uuid.data;
   }
+
+  Future<void> deleteCollection(String uuid) async {
+    await auth.delete("${endpoint.baseurl}/collection/$uuid");
+  }
 }
