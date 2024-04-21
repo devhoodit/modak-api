@@ -27,7 +27,7 @@ class AuthAPI implements IAPIRequest {
   AuthAPI(this.token, this._refreshToken, this.endpoint);
 
   @override
-  Future<T> get<T, G>(String url, T Function(G json) task,
+  Future<APIResponse<T>> get<T, G>(String url, T Function(G json) task,
       {Map<String, String>? headers}) async {
     try {
       return await APIRequest().get(url, task, headers: addTokenHeader(token));
@@ -46,12 +46,12 @@ class AuthAPI implements IAPIRequest {
     final refreshTokenRes = await post(
         "${endpoint.baseurl}/auth/refresh", RefreshTokenRes.fromJson,
         body: json.encode(<String, String>{"refresh_token": _refreshToken}));
-    token = Token.parseFromString(refreshTokenRes.accessToken);
-    _refreshToken = refreshTokenRes.refreshToken;
+    token = Token.parseFromString(refreshTokenRes.data.accessToken);
+    _refreshToken = refreshTokenRes.data.refreshToken;
   }
 
   @override
-  Future<T> post<T, G>(String url, T Function(G json) task,
+  Future<APIResponse<T>> post<T, G>(String url, T Function(G json) task,
       {Object? body, Map<String, String>? headers}) async {
     try {
       return await APIRequest()
@@ -66,7 +66,7 @@ class AuthAPI implements IAPIRequest {
   }
 
   @override
-  Future<T> multipart<T, G>(
+  Future<APIResponse<T>> multipart<T, G>(
       String url, T Function(G json) task, List<MultipartFile> files,
       {Map<String, String>? headers}) async {
     try {
@@ -76,6 +76,20 @@ class AuthAPI implements IAPIRequest {
       await refreshToken();
       return await APIRequest().multipart(url, task, files,
           headers: addTokenHeader(token, header: headers));
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<APIResponse<String>> delete(String url,
+      {Object? body, Map<String, String>? headers}) async {
+    try {
+      return await APIRequest().delete(url,
+          body: body, headers: addTokenHeader(token, header: headers));
+    } on AuthenticationError catch (e) {
+      await refreshToken();
+      return await APIRequest().delete(url, body: body, headers: headers);
     } catch (e) {
       rethrow;
     }

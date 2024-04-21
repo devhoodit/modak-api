@@ -15,7 +15,7 @@ class ArticleAPI {
   Future<Article> getArticle(String link) async {
     final article = await APIRequest()
         .get("${endpoint.baseurl}/article/$link", Article.fromJson);
-    return article;
+    return article.data;
   }
 
   Future<void> postArticle(String title, String content,
@@ -38,6 +38,10 @@ class ArticleAPI {
     final links = await auth.get(
         "${endpoint.baseurl}/article/get-links/$userUUID",
         ArticleLinks.fromJson);
-    return links;
+    return links.data;
+  }
+
+  Future<void> deleteArticleByLink(String link) async {
+    throw UnimplementedError();
   }
 }

@@ -15,13 +15,13 @@ class CollectionAPI {
     final collectionsUUID = await auth.get(
         "${endpoint.baseurl}/collection?offset=$offset&limit=$limit",
         CollectionsUUID.fromJson);
-    return collectionsUUID.collections;
+    return collectionsUUID.data.collections;
   }
 
   Future<Collection> getCollectionByUUID(String uuid) async {
     final collection = await auth.get(
         "${endpoint.baseurl}/collection/$uuid", Collection.fromJson);
-    return collection;
+    return collection.data;
   }
 
   Future<String> postCollection(String imagePath, Collection collection) async {
@@ -35,6 +35,6 @@ class CollectionAPI {
         "${endpoint.baseurl}/collection/",
         (json) => json?["uuid"] ?? "",
         multipatFiles);
-    return uuid;
+    return uuid.data;
   }
 }
