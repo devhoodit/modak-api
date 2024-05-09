@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:modak/src/api/auth/auth_dto.dart';
 import 'package:modak/src/api/endpoint.dart';
@@ -27,7 +28,7 @@ class AuthAPI implements IAPIRequest {
   AuthAPI(this.token, this._refreshToken, this.endpoint);
 
   @override
-  Future<APIResponse<T>> get<T, G>(String url, T Function(G json) task,
+  Future<APIResponse<T>> get<T>(String url, T Function(http.Response res) task,
       {Map<String, String>? headers}) async {
     try {
       return await APIRequest().get(url, task, headers: addTokenHeader(token));
@@ -43,15 +44,15 @@ class AuthAPI implements IAPIRequest {
     if (!token.isExpired()) {
       throw Exception("token is not expired yet");
     }
-    final refreshTokenRes = await post(
-        "${endpoint.baseurl}/auth/refresh", RefreshTokenRes.fromJson,
+    final refreshTokenRes = await post("${endpoint.baseurl}/auth/refresh",
+        responseJsonWrapper(RefreshTokenRes.fromJson),
         body: json.encode(<String, String>{"refresh_token": _refreshToken}));
     token = Token.parseFromString(refreshTokenRes.data.accessToken);
     _refreshToken = refreshTokenRes.data.refreshToken;
   }
 
   @override
-  Future<APIResponse<T>> post<T, G>(String url, T Function(G json) task,
+  Future<APIResponse<T>> post<T>(String url, T Function(http.Response res) task,
       {Object? body, Map<String, String>? headers}) async {
     try {
       return await APIRequest()
@@ -66,8 +67,8 @@ class AuthAPI implements IAPIRequest {
   }
 
   @override
-  Future<APIResponse<T>> multipart<T, G>(
-      String url, T Function(G json) task, List<MultipartFile> files,
+  Future<APIResponse<T>> multipart<T>(
+      String url, T Function(http.Response res) task, List<MultipartFile> files,
       {Map<String, String>? headers}) async {
     try {
       return await APIRequest().multipart(url, task, files,

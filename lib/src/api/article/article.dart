@@ -13,8 +13,8 @@ class ArticleAPI {
   ArticleAPI(this.auth, this.endpoint);
 
   Future<Article> getArticle(String link) async {
-    final article = await APIRequest()
-        .get("${endpoint.baseurl}/article/$link", Article.fromJson);
+    final article = await APIRequest().get("${endpoint.baseurl}/article/$link",
+        responseJsonWrapper(Article.fromJson));
     return article.data;
   }
 
@@ -31,13 +31,13 @@ class ArticleAPI {
       multipartFiles.add(imageFile);
     }
     await auth.multipart(
-        "${endpoint.baseurl}/article", (json) => null, multipartFiles);
+        "${endpoint.baseurl}/article", (res) => null, multipartFiles);
   }
 
   Future<ArticleLinks> getLinksByUsername(String username) async {
     final links = await auth.get(
         "${endpoint.baseurl}/article/get-links/$username",
-        ArticleLinks.fromJson);
+        responseJsonWrapper(ArticleLinks.fromJson));
     return links.data;
   }
 
