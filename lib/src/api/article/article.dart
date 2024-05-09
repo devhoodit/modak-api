@@ -13,9 +13,9 @@ class ArticleAPI {
   ArticleAPI(this.auth, this.endpoint);
 
   Future<Article> getArticle(String link) async {
-    final article = await APIRequest()
-        .get("${endpoint.baseurl}/article/$link", Article.fromJson);
-    return article;
+    final article = await APIRequest().get("${endpoint.baseurl}/article/$link",
+        responseJsonWrapper(Article.fromJson));
+    return article.data;
   }
 
   Future<void> postArticle(String title, String content,
@@ -31,13 +31,17 @@ class ArticleAPI {
       multipartFiles.add(imageFile);
     }
     await auth.multipart(
-        "${endpoint.baseurl}/article", (json) => null, multipartFiles);
+        "${endpoint.baseurl}/article", (res) => null, multipartFiles);
   }
 
-  Future<ArticleLinks> getLinksByUserUUID(String userUUID) async {
+  Future<ArticleLinks> getLinksByUsername(String username) async {
     final links = await auth.get(
-        "${endpoint.baseurl}/article/get-links/$userUUID",
-        ArticleLinks.fromJson);
-    return links;
+        "${endpoint.baseurl}/article/get-links/$username",
+        responseJsonWrapper(ArticleLinks.fromJson));
+    return links.data;
+  }
+
+  Future<void> deleteArticleByLink(String link) async {
+    await auth.delete("${endpoint.baseurl}/article/$link");
   }
 }
