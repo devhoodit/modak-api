@@ -18,6 +18,15 @@ class ArticleAPI {
     return article.data;
   }
 
+  ByteData _getByteData(http.Response res) {
+    return ByteData.view(res.bodyBytes.buffer);
+  }
+
+  Future<ByteData> getArticleImage(String uuid) async {
+    final res = await auth.get("${endpoint.baseurl}/image/$uuid", _getByteData);
+    return res.data;
+  }
+
   Future<void> postArticle(String title, String content,
       List<OrderInfo> collectionOrderInfo, List<String> imagePaths) async {
     var multipartFiles = <http.MultipartFile>[];
