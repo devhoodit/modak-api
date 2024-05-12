@@ -18,6 +18,6 @@ jobs:
         architecture: x64
 
     - name: Test
-      run: dart pub global run coverage:test_with_coverage
+      run: dart test
         
       
