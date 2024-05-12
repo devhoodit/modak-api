@@ -11,12 +11,13 @@ class Token {
   /// Modak token VO
   /// Generate new token from string with [Token.parseFromString]
 
-  final String uuid;
+  final String authUuid;
+  final String externalUuid;
   final DateTime exp;
   final String _tokenString;
   String get tokenString => _tokenString;
 
-  Token(this.uuid, this.exp, this._tokenString);
+  Token(this.authUuid, this.externalUuid, this.exp, this._tokenString);
 
   /// parseToken from string
   ///
@@ -34,10 +35,11 @@ class Token {
     Map<String, dynamic> jsonBody = jsonDecode(decodedBody);
 
     if (!jsonBody.containsKey("user")) throw NoValidTokenError("no uuid");
-    final String uuid = jsonBody["user"];
+    final String authUuid = jsonBody["user"];
+    final String externalUuid = jsonBody["user_uuid"];
     final exp = DateTime.fromMillisecondsSinceEpoch(jsonBody["exp"] * 1000);
 
-    return Token(uuid, exp, tokenString);
+    return Token(authUuid, externalUuid, exp, tokenString);
   }
 
   bool isExpired() {
