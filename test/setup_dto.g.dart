@@ -8,7 +8,7 @@ part of 'setup_dto.dart';
 
 TestConfig _$TestConfigFromJson(Map<String, dynamic> json) => TestConfig(
       json['host'] as String,
-      json['port'] as int,
+      (json['port'] as num).toInt(),
       json['access_token'] as String,
       json['refresh_token'] as String,
       SpecificTestConfig.fromJson(json['tests'] as Map<String, dynamic>),
