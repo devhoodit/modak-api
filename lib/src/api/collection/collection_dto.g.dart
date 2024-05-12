@@ -32,7 +32,7 @@ Map<String, dynamic> _$CollectionsUUIDToJson(CollectionsUUID instance) =>
     };
 
 Collection _$CollectionFromJson(Map<String, dynamic> json) => Collection(
-      json['index'] as int,
+      (json['index'] as num).toInt(),
       GeoLocation.fromJson(json['geolocation'] as Map<String, dynamic>),
       Collection._dateFromJson(json['datetime'] as String?),
     );

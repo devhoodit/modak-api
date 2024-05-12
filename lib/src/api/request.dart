@@ -1,8 +1,6 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:modak/modak.dart';
-import 'package:modak/src/api/auth/auth.dart';
 
 class APIResponse<T> {
   T data;

@@ -1,5 +1,4 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:modak/modak.dart';
 
 part 'article_dto.g.dart';
 
