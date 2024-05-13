@@ -19,7 +19,7 @@ void main() {
   group('article', () {
     // fail test
     test('get article links', () async {
-      doing() async => await m.article.getLinksByUsername("username");
+      doing() async => await m.article.getLinksByUserUUID("username");
       final expected = returnsNormally;
 
       expect(doing, expected);

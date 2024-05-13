@@ -16,7 +16,7 @@ void main() {
 
   group('collection', () {
     test('get collection list', () async {
-      await m.collection.getCollectionsUUID(0, 100);
+      await m.collection.getCollectionsUUID("", 0, 100);
     });
     test('post collection', () async {
       final collection = Collection(1, GeoLocation(1, 1, 1, 1), null);

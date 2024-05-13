@@ -11,6 +11,7 @@ TestConfig _$TestConfigFromJson(Map<String, dynamic> json) => TestConfig(
       (json['port'] as num).toInt(),
       json['access_token'] as String,
       json['refresh_token'] as String,
+      UUID.fromJson(json['uuid'] as String),
       SpecificTestConfig.fromJson(json['tests'] as Map<String, dynamic>),
     );
 
@@ -20,6 +21,7 @@ Map<String, dynamic> _$TestConfigToJson(TestConfig instance) =>
       'port': instance.port,
       'access_token': instance.accessToken,
       'refresh_token': instance.refreshToken,
+      'uuid': instance.uuid,
       'tests': instance.test,
     };
 
