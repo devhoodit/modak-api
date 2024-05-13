@@ -12,12 +12,11 @@ class Token {
   /// Generate new token from string with [Token.parseFromString]
 
   final String authUuid;
-  final String externalUuid;
   final DateTime exp;
   final String _tokenString;
   String get tokenString => _tokenString;
 
-  Token(this.authUuid, this.externalUuid, this.exp, this._tokenString);
+  Token(this.authUuid, this.exp, this._tokenString);
 
   /// parseToken from string
   ///
@@ -36,10 +35,9 @@ class Token {
 
     if (!jsonBody.containsKey("user")) throw NoValidTokenError("no uuid");
     final String authUuid = jsonBody["user"];
-    final String externalUuid = jsonBody["user_uuid"];
     final exp = DateTime.fromMillisecondsSinceEpoch(jsonBody["exp"] * 1000);
 
-    return Token(authUuid, externalUuid, exp, tokenString);
+    return Token(authUuid, exp, tokenString);
   }
 
   bool isExpired() {

@@ -8,7 +8,7 @@ part of 'report_dto.dart';
 
 ReportUser _$ReportUserFromJson(Map<String, dynamic> json) => ReportUser(
       (json['report_detail_type'] as num).toInt(),
-      json['target'] as String,
+      UUID.fromJson(json['target'] as String),
       json['description'] as String,
     );
 

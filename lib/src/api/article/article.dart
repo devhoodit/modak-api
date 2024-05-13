@@ -5,6 +5,7 @@ import 'package:http_parser/http_parser.dart';
 
 import 'package:modak/src/api/article/article_dto.dart';
 import 'package:modak/src/api/auth/auth.dart';
+import 'package:modak/src/api/errors.dart';
 import 'package:modak/src/api/request.dart';
 import 'package:modak/src/api/endpoint.dart';
 
@@ -44,7 +45,12 @@ class ArticleAPI {
         "${endpoint.baseurl}/article", (res) => null, multipartFiles);
   }
 
-  Future<ArticleLinks> getLinksByUserUUID(String user) async {
+  Future<ArticleLinks> getLinksByUserUUID(String user,
+      {int offset = 0, int limit = 8}) async {
+    if (offset < 0 || limit < 1 || limit > 64) {
+      throw InvalidInputError(
+          "offset: $offset, limit: $limit, expected value offset >= 0, 1 <= limit <= 64");
+    }
     final links = await auth.get("${endpoint.baseurl}/article/get-links/$user",
         responseJsonWrapper(ArticleLinks.fromJson));
     return links.data;

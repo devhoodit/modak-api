@@ -1,9 +1,10 @@
 host: "localhost"
-port: 1234
+port: 8080
 
 # universally use this token when need authentication
 access_token: "access token"
 refresh_token: "refresh token"
+uuid: "uuid"
 
 tests:
   auth:
@@ -24,3 +25,17 @@ tests:
     # user: "test user uuid"
     collectionUUID: "collection uuid"
     link: "test article link"
+
+  social:
+    user1:
+      access_token: "access token"
+      refresh_token: "refresh token"
+      uuid: "uuid"
+    user2:
+      access_token: "access token"
+      refresh_token: "refresh token"
+      uuid: "uuid"
+    user3:
+      access_token: "access token"
+      refresh_token: "refresh token"
+      uuid: "uuid"

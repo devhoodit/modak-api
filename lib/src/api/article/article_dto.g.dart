@@ -51,7 +51,7 @@ Map<String, dynamic> _$PostArticleToJson(PostArticle instance) =>
     };
 
 OrderInfo _$OrderInfoFromJson(Map<String, dynamic> json) => OrderInfo(
-      json['uuid'] as String,
+      UUID.fromJson(json['uuid'] as String),
       (json['order'] as num).toInt(),
     );
 

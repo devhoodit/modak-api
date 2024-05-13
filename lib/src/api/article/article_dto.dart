@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:modak/src/types/uuid.dart';
 
 part 'article_dto.g.dart';
 
@@ -46,7 +47,7 @@ class PostArticle {
 
 @JsonSerializable()
 class OrderInfo {
-  final String uuid;
+  final UUID uuid;
   final int order;
   OrderInfo(this.uuid, this.order);
   factory OrderInfo.fromJson(Map<String, dynamic> json) =>

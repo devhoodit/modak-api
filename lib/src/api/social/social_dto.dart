@@ -32,7 +32,9 @@ class FollowRequests {
 
 @JsonSerializable()
 class Relation {
+  @JsonKey(name: "is_following")
   final bool isFollowing;
+  @JsonKey(name: "is_follower")
   final bool isFollower;
   Relation(this.isFollowing, this.isFollower);
   factory Relation.fromJson(Map<String, dynamic> json) =>
