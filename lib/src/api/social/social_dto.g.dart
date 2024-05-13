@@ -40,11 +40,11 @@ Map<String, dynamic> _$FollowRequestsToJson(FollowRequests instance) =>
     };
 
 Relation _$RelationFromJson(Map<String, dynamic> json) => Relation(
-      json['isFollowing'] as bool,
-      json['isFollower'] as bool,
+      json['is_following'] as bool,
+      json['is_follower'] as bool,
     );
 
 Map<String, dynamic> _$RelationToJson(Relation instance) => <String, dynamic>{
-      'isFollowing': instance.isFollowing,
-      'isFollower': instance.isFollower,
+      'is_following': instance.isFollowing,
+      'is_follower': instance.isFollower,
     };
