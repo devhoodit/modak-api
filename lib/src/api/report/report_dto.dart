@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:modak/src/types/uuid.dart';
 
 part 'report_dto.g.dart';
 
@@ -6,7 +7,7 @@ part 'report_dto.g.dart';
 class ReportUser {
   @JsonKey(name: "report_detail_type")
   final int type;
-  final String target;
+  final UUID target;
   final String description;
   ReportUser(this.type, this.target, this.description);
   factory ReportUser.fromJson(Map<String, dynamic> json) =>
