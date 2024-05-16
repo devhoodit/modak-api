@@ -8,13 +8,14 @@ import 'package:modak/src/api/auth/auth.dart';
 import 'package:modak/src/api/errors.dart';
 import 'package:modak/src/api/request.dart';
 import 'package:modak/src/api/endpoint.dart';
+import 'package:modak/src/types/uuid.dart';
 
 class ArticleAPI {
   AuthAPI auth;
   Endpoint endpoint;
   ArticleAPI(this.auth, this.endpoint);
 
-  Future<Article> getArticle(String link) async {
+  Future<Article> getArticle(UUID link) async {
     final article = await APIRequest().get("${endpoint.baseurl}/article/$link",
         responseJsonWrapper(Article.fromJson));
     return article.data;
@@ -24,7 +25,7 @@ class ArticleAPI {
     return ByteData.view(res.bodyBytes.buffer);
   }
 
-  Future<ByteData> getArticleImage(String uuid) async {
+  Future<ByteData> getArticleImage(UUID uuid) async {
     final res = await auth.get("${endpoint.baseurl}/image/$uuid", _getByteData);
     return res.data;
   }
@@ -45,7 +46,7 @@ class ArticleAPI {
         "${endpoint.baseurl}/article", (res) => null, multipartFiles);
   }
 
-  Future<ArticleLinks> getLinksByUserUUID(String user,
+  Future<ArticleLinks> getLinksByUserUUID(UUID user,
       {int offset = 0, int limit = 8}) async {
     if (offset < 0 || limit < 1 || limit > 64) {
       throw InvalidInputError(
@@ -56,7 +57,7 @@ class ArticleAPI {
     return links.data;
   }
 
-  Future<void> deleteArticleByLink(String link) async {
+  Future<void> deleteArticleByLink(UUID link) async {
     await auth.delete("${endpoint.baseurl}/article/$link");
   }
 }

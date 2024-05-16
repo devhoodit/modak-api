@@ -26,7 +26,7 @@ class Article {
 
 @JsonSerializable()
 class ArticleLinks {
-  final List<String> links;
+  final List<UUID> links;
   ArticleLinks(this.links);
   factory ArticleLinks.fromJson(Map<String, dynamic> json) =>
       _$ArticleLinksFromJson(json);

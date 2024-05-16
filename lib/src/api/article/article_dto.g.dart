@@ -27,7 +27,9 @@ Map<String, dynamic> _$ArticleToJson(Article instance) => <String, dynamic>{
     };
 
 ArticleLinks _$ArticleLinksFromJson(Map<String, dynamic> json) => ArticleLinks(
-      (json['links'] as List<dynamic>).map((e) => e as String).toList(),
+      (json['links'] as List<dynamic>)
+          .map((e) => UUID.fromJson(e as String))
+          .toList(),
     );
 
 Map<String, dynamic> _$ArticleLinksToJson(ArticleLinks instance) =>
