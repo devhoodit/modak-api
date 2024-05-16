@@ -3,13 +3,15 @@ import 'package:modak/src/api/endpoint.dart';
 import 'package:modak/src/api/request.dart';
 import 'package:modak/src/api/social/social_dto.dart';
 import 'package:modak/src/api/validator.dart';
+import 'package:modak/src/types/uuid.dart';
 
 class SocialAPI {
   AuthAPI auth;
   Endpoint endpoint;
   SocialAPI(this.auth, this.endpoint);
 
-  Future<Followers> getFollowers(String target,
+  /// get [target]'s [Followers]
+  Future<Followers> getFollowers(UUID target,
       {int offset = 0, int limit = 8}) async {
     validateRange(offset, limit, 64);
     final apires = await auth.get(
@@ -18,7 +20,8 @@ class SocialAPI {
     return apires.data;
   }
 
-  Future<Followings> getFollowings(String target,
+  /// get [target]'s [Followings]
+  Future<Followings> getFollowings(UUID target,
       {int offset = 0, int limit = 8}) async {
     validateRange(offset, limit, 64);
     final apires = await auth.get(
@@ -27,10 +30,12 @@ class SocialAPI {
     return apires.data;
   }
 
-  Future<void> requestFollow(String target) async {
+  /// request [target] to follow accept
+  Future<void> requestFollow(UUID target) async {
     await auth.post("${endpoint.baseurl}/social/follow/$target", (res) => null);
   }
 
+  /// get [FollowRequests]
   Future<FollowRequests> getFollowRequests(
       {int offset = 0, int limit = 16}) async {
     validateRange(offset, limit, 64);
@@ -40,41 +45,48 @@ class SocialAPI {
     return resapi.data;
   }
 
-  Future<void> acceptFollowRequest(String target) async {
+  /// accept [target]'s follow request
+  Future<void> acceptFollowRequest(UUID target) async {
     await auth.post(
         "${endpoint.baseurl}/social/follow/accept/$target", (res) => null);
   }
 
-  Future<void> rejectFollowRequest(String target) async {
+  /// reject [target]'s follow request
+  Future<void> rejectFollowRequest(UUID target) async {
     await auth.post(
         "${endpoint.baseurl}/social/follow/reject/$target", (res) => null);
   }
 
-  Future<bool> isFollowing(String target) async {
+  /// query i follow [target]
+  Future<bool> isFollowing(UUID target) async {
     final apires = await auth.get(
         "${endpoint.baseurl}/social/is-following/$target",
         (res) => res.body as bool);
     return apires.data;
   }
 
-  Future<bool> isFollower(String target) async {
+  /// query [target] follow me
+  Future<bool> isFollower(UUID target) async {
     final apires = await auth.get(
         "${endpoint.baseurl}/social/is-follower/$target",
         (res) => res.body as bool);
     return apires.data;
   }
 
-  Future<Relation> getRelation(String target) async {
+  /// query [target] and me [Relation]
+  Future<Relation> getRelation(UUID target) async {
     final apires = await auth.get("${endpoint.baseurl}/social/relation/$target",
         responseJsonWrapper(Relation.fromJson));
     return apires.data;
   }
 
-  Future<void> removeFollower(String target) async {
+  /// remove follower [target]
+  Future<void> removeFollower(UUID target) async {
     await auth.delete("${endpoint.baseurl}/social/follower/$target");
   }
 
-  Future<void> removeFollowing(String target) async {
+  /// unfollow [target]
+  Future<void> removeFollowing(UUID target) async {
     await auth.delete("${endpoint.baseurl}/social/following/$target");
   }
 }
