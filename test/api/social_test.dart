@@ -6,24 +6,26 @@ import 'package:test/test.dart';
 final followersBody = """
 {
   "followers": [
-    "f015ba1c-fb7a-4fc0-8cc3-670047bd8563",
-    "d4f2a808-ae7e-43f5-b140-cf9d83767346"
+    "follower1",
+    "follower2"
   ]
 }""";
 
 final followingsBody = '''
 {
   "followings": [
-    "f015ba1c-fb7a-4fc0-8cc3-670047bd8563",
-    "d4f2a808-ae7e-43f5-b140-cf9d83767346"
+    "following1",
+    "following2"
   ]
 }''';
 
 final followRequestsBody = '''
 {
   "requests": [
-    "f015ba1c-fb7a-4fc0-8cc3-670047bd8563",
-    "d4f2a808-ae7e-43f5-b140-cf9d83767346"
+    {
+      "username": "username1",
+      "code": "f015ba1c-fb7a-4fc0-8cc3-670047bd8563"
+    }
   ]
 }''';
 

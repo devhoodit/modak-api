@@ -26,7 +26,7 @@ Map<String, dynamic> _$FollowingsToJson(Followings instance) =>
 FollowRequests _$FollowRequestsFromJson(Map<String, dynamic> json) =>
     FollowRequests(
       (json['requests'] as List<dynamic>)
-          .map((e) => UUID.fromJson(e as String))
+          .map((e) => FollowRequest.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 

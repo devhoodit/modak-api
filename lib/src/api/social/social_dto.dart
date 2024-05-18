@@ -24,7 +24,7 @@ class Followings {
 
 @JsonSerializable(explicitToJson: true)
 class FollowRequests {
-  final List<UUID> requests;
+  final List<FollowRequest> requests;
   FollowRequests(this.requests);
   factory FollowRequests.fromJson(Map<String, dynamic> json) =>
       _$FollowRequestsFromJson(json);
