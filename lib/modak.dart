@@ -10,4 +10,5 @@ export 'src/api/collection/collection_dto.dart';
 export 'src/api/article/article_dto.dart';
 export 'src/api/social/social_dto.dart';
 export 'src/api/errors.dart';
+export 'src/types/uuid.dart';
 // TODO: Export any libraries intended for clients of this package.
