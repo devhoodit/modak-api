@@ -13,11 +13,12 @@ class Modak {
   late ArticleAPI article;
   late UserAPI user;
   late SocialAPI social;
-  Modak({
-    required this.token,
-    required String refreshToken,
-    required this.endpoint,
-  }) {
+  final String name;
+  Modak(
+      {required this.token,
+      required String refreshToken,
+      required this.endpoint,
+      required this.name}) {
     auth = AuthAPI(token, refreshToken, endpoint);
     collection = CollectionAPI(auth, endpoint);
     article = ArticleAPI(auth, endpoint);
