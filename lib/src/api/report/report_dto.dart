@@ -1,5 +1,4 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:modak/src/types/uuid.dart';
 
 part 'report_dto.g.dart';
 
