@@ -11,28 +11,29 @@ class SocialAPI {
   SocialAPI(this.auth, this.endpoint);
 
   /// get [target]'s [Followers]
-  Future<Followers> getFollowers(UUID target,
+  Future<Followers> getFollowers(String targetname,
       {int offset = 0, int limit = 8}) async {
     validateRange(offset, limit, 64);
     final apires = await auth.get(
-        "${endpoint.baseurl}/social/follower/$target?offset=$offset&limit=$limit",
+        "${endpoint.baseurl}/social/follower/$targetname?offset=$offset&limit=$limit",
         responseJsonWrapper(Followers.fromJson));
     return apires.data;
   }
 
   /// get [target]'s [Followings]
-  Future<Followings> getFollowings(UUID target,
+  Future<Followings> getFollowings(String targetname,
       {int offset = 0, int limit = 8}) async {
     validateRange(offset, limit, 64);
     final apires = await auth.get(
-        "${endpoint.baseurl}/social/following/$target?offset=$offset&limit=$limit",
+        "${endpoint.baseurl}/social/following/$targetname?offset=$offset&limit=$limit",
         responseJsonWrapper(Followings.fromJson));
     return apires.data;
   }
 
   /// request [target] to follow accept
-  Future<void> requestFollow(UUID target) async {
-    await auth.post("${endpoint.baseurl}/social/follow/$target", (res) => null);
+  Future<void> requestFollow(String targetname) async {
+    await auth.post(
+        "${endpoint.baseurl}/social/follow/$targetname", (res) => null);
   }
 
   /// get [FollowRequests]
@@ -46,47 +47,48 @@ class SocialAPI {
   }
 
   /// accept [target]'s follow request
-  Future<void> acceptFollowRequest(UUID target) async {
+  Future<void> acceptFollowRequest(UUID code) async {
     await auth.post(
-        "${endpoint.baseurl}/social/follow/accept/$target", (res) => null);
+        "${endpoint.baseurl}/social/follow/accept/$code", (res) => null);
   }
 
   /// reject [target]'s follow request
-  Future<void> rejectFollowRequest(UUID target) async {
+  Future<void> rejectFollowRequest(UUID code) async {
     await auth.post(
-        "${endpoint.baseurl}/social/follow/reject/$target", (res) => null);
+        "${endpoint.baseurl}/social/follow/reject/$code", (res) => null);
   }
 
   /// query i follow [target]
-  Future<bool> isFollowing(UUID target) async {
+  Future<bool> isFollowing(String targetname) async {
     final apires = await auth.get(
-        "${endpoint.baseurl}/social/is-following/$target",
+        "${endpoint.baseurl}/social/is-following/$targetname",
         (res) => res.body as bool);
     return apires.data;
   }
 
   /// query [target] follow me
-  Future<bool> isFollower(UUID target) async {
+  Future<bool> isFollower(String targetname) async {
     final apires = await auth.get(
-        "${endpoint.baseurl}/social/is-follower/$target",
+        "${endpoint.baseurl}/social/is-follower/$targetname",
         (res) => res.body as bool);
     return apires.data;
   }
 
   /// query [target] and me [Relation]
-  Future<Relation> getRelation(UUID target) async {
-    final apires = await auth.get("${endpoint.baseurl}/social/relation/$target",
+  Future<Relation> getRelation(String targetname) async {
+    final apires = await auth.get(
+        "${endpoint.baseurl}/social/relation/$targetname",
         responseJsonWrapper(Relation.fromJson));
     return apires.data;
   }
 
   /// remove follower [target]
-  Future<void> removeFollower(UUID target) async {
-    await auth.delete("${endpoint.baseurl}/social/follower/$target");
+  Future<void> removeFollower(String targetname) async {
+    await auth.delete("${endpoint.baseurl}/social/follower/$targetname");
   }
 
   /// unfollow [target]
-  Future<void> removeFollowing(UUID target) async {
-    await auth.delete("${endpoint.baseurl}/social/following/$target");
+  Future<void> removeFollowing(String targetname) async {
+    await auth.delete("${endpoint.baseurl}/social/following/$targetname");
   }
 }

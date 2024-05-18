@@ -7,9 +7,9 @@ part 'report_dto.g.dart';
 class ReportUser {
   @JsonKey(name: "report_detail_type")
   final int type;
-  final UUID target;
+  final String targetname;
   final String description;
-  ReportUser(this.type, this.target, this.description);
+  ReportUser(this.type, this.targetname, this.description);
   factory ReportUser.fromJson(Map<String, dynamic> json) =>
       _$ReportUserFromJson(json);
   Map<String, dynamic> toJson() => _$ReportUserToJson(this);

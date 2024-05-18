@@ -46,13 +46,14 @@ class ArticleAPI {
         "${endpoint.baseurl}/article", (res) => null, multipartFiles);
   }
 
-  Future<ArticleLinks> getLinksByUserUUID(UUID user,
+  Future<ArticleLinks> getLinksByUsername(String username,
       {int offset = 0, int limit = 8}) async {
     if (offset < 0 || limit < 1 || limit > 64) {
       throw InvalidInputError(
           "offset: $offset, limit: $limit, expected value offset >= 0, 1 <= limit <= 64");
     }
-    final links = await auth.get("${endpoint.baseurl}/article/get-links/$user",
+    final links = await auth.get(
+        "${endpoint.baseurl}/article/get-links/$username",
         responseJsonWrapper(ArticleLinks.fromJson));
     return links.data;
   }

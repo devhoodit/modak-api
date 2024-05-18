@@ -16,9 +16,9 @@ class CollectionAPI {
 
   /// get collection uuids by [user], [offset] and [limit]
   Future<List<UUID>> getCollectionsUUID(
-      UUID user, int offset, int limit) async {
+      String username, int offset, int limit) async {
     final apires = await auth.get(
-        "${endpoint.baseurl}/collection/list/$user?offset=$offset&limit=$limit",
+        "${endpoint.baseurl}/collection/list/$username?offset=$offset&limit=$limit",
         responseJsonWrapper(CollectionsUUID.fromJson));
     return apires.data.collections;
   }
