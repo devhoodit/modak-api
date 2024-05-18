@@ -1,7 +1,12 @@
 class Endpoint {
   final String host;
-  final int port;
-  final String baseurl;
-  Endpoint({required this.host, required this.port})
-      : baseurl = "http://$host:$port";
+  final int? port;
+  late final String baseurl;
+  Endpoint({required this.host, this.port}) {
+    if (port == null) {
+      baseurl = host;
+    } else {
+      baseurl = "$host:$port";
+    }
+  }
 }
