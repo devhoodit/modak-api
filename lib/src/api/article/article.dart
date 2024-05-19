@@ -4,11 +4,15 @@ import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 
 import 'package:modak/src/api/article/article_dto.dart';
+import 'package:modak/src/api/article/heart_dto.dart';
 import 'package:modak/src/api/auth/auth.dart';
 import 'package:modak/src/api/errors.dart';
 import 'package:modak/src/api/request.dart';
 import 'package:modak/src/api/endpoint.dart';
+import 'package:modak/src/api/validator.dart';
 import 'package:modak/src/types/uuid.dart';
+
+import 'comment_dto.dart';
 
 class ArticleAPI {
   AuthAPI auth;
@@ -48,10 +52,7 @@ class ArticleAPI {
 
   Future<ArticleLinks> getLinksByUsername(String username,
       {int offset = 0, int limit = 8}) async {
-    if (offset < 0 || limit < 1 || limit > 64) {
-      throw InvalidInputError(
-          "offset: $offset, limit: $limit, expected value offset >= 0, 1 <= limit <= 64");
-    }
+    validateRange(offset, limit, 64);
     final links = await auth.get(
         "${endpoint.baseurl}/article/get-links/$username",
         responseJsonWrapper(ArticleLinks.fromJson));
@@ -60,5 +61,37 @@ class ArticleAPI {
 
   Future<void> deleteArticleByLink(UUID link) async {
     await auth.delete("${endpoint.baseurl}/article/$link");
+  }
+
+  Future<void> postComment(UUID link, String comment) async {
+    await auth.post(
+        "${endpoint.baseurl}/article/$link/comment",
+        body: Comment(null, comment).toJson(),
+        (res) => null);
+  }
+
+  Future<List<Comment>> getComments(UUID link,
+      {int offset = 0, int limit = 16}) async {
+    validateRange(offset, limit, 64);
+    final comments = await auth.get(
+        "${endpoint.baseurl}/article/$link/comment?offset=$offset&limit=$limit",
+        (res) {
+      final j = json.decode(res.body) as List;
+      return List<Comment>.from(j.map((e) => Comment.fromJson(e)));
+    });
+    return comments.data;
+  }
+
+  Future<bool> getHeartState(UUID link) async {
+    final heartState = await auth.get("${endpoint.baseurl}/article/$link/heart",
+        responseJsonWrapper(HeartState.fromJson));
+    return heartState.data.state;
+  }
+
+  Future<int> getHeartCount(UUID link) async {
+    final heartCount = await auth.get(
+        "${endpoint.baseurl}/article/$link/heart/count",
+        responseJsonWrapper(HeartCount.fromJson));
+    return heartCount.data.count;
   }
 }
