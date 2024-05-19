@@ -1,8 +1,10 @@
-# Modak API
+![modak-api](./docs/main.png)
 
-Modak API
+<div align="center">
+<h1>Modak API with dart</h1>
+</div>
 
-모두의 도감 API wrapper
+Modak API wrapper with dart
 
 - [Examples](#example)
 - [Branch](#branch)
@@ -24,35 +26,8 @@ m = Modak(
 Get collection list (uuid)
 
 ```dart
-final collectionsUUID = m.collection.getCollectionsUUID(0, 100);
+final collectionsUUID = m.collection.getCollectionsUUID("username", 0, 100);
 ```
-
-Post collection
-
-```dart
-final collection = Collection(1, GeoLocation(0, 0, 0, 0), null);
-await m.collection.postCollection("image file path", collection);
-```
-
-Get username's article list (link)
-
-```dart
-final articleLinks = m.article.getLinksByUsername("username");
-print(articleLinks.links);
-```
-
-Get article by link
-
-```dart
-final article = m.article.getArticle("link");
-print(article.title);
-print(article.content);
-```
-
-# Branch
-
-- master: production branch, must be tested
-- main: develop branch
 
 # DTO
 
