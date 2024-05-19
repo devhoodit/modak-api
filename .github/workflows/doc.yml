@@ -1,0 +1,27 @@
+name: Document
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  bulid:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up dart
+        uses: dart-lang/setup-dart@v1.6.4
+        with:
+          architecture: x64
+
+      - name: Generate doc
+        run: dart doc .
+
+      - name: Deploy to GitHub Pages
+        uses: crazy-max/ghaction-github-pages@v4
+        with:
+          target_branch: gh-pages
+          build_dir: doc
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PAGE_TOKEN }}
