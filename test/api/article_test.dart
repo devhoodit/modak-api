@@ -26,7 +26,7 @@ final getArticleBody = """
 final getLinksByUserUUIDBody = """
 {
     "links": [
-        "JAsXYx2_Q-mZeaW351aI4Q=="
+        "7cd3ca3b-58bf-409b-bd65-a8efbcac7cc1"
     ]
 }
 """;
