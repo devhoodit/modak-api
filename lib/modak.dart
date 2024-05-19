@@ -8,6 +8,7 @@ export 'src/api/endpoint.dart' show Endpoint;
 export 'src/token.dart' show Token;
 export 'src/api/request.dart'
     show RequestAPIError, AuthenticationError, APIResponse;
+export 'src/api/auth/auth.dart' show RefreshCallback;
 export 'src/api/collection/collection_dto.dart'
     show Collection, CollectionsUUID, GeoLocation;
 export 'src/api/article/article_dto.dart'

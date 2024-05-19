@@ -22,12 +22,16 @@ Map<String, String> addTokenHeader(Token token, {Map<String, String>? header}) {
   return header;
 }
 
+typedef RefreshCallback = Future<void> Function(
+    String tokenString, String refreshToken);
+
 class AuthAPI implements IAPIRequest {
   Token token;
   String _refreshToken;
   Endpoint endpoint;
+  RefreshCallback refreshCallback;
   late final Mutex mutex;
-  AuthAPI(this.token, this._refreshToken, this.endpoint) {
+  AuthAPI(this.token, this._refreshToken, this.endpoint, this.refreshCallback) {
     mutex = Mutex();
   }
 
@@ -57,6 +61,7 @@ class AuthAPI implements IAPIRequest {
           body: json.encode(<String, String>{"refresh_token": _refreshToken}));
       token = Token.parseFromString(refreshTokenRes.data.accessToken);
       _refreshToken = refreshTokenRes.data.refreshToken;
+      await refreshCallback(refreshTokenRes.data.accessToken, _refreshToken);
     } finally {
       mutex.release();
     }

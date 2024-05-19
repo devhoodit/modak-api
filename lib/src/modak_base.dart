@@ -18,8 +18,9 @@ class Modak {
       {required this.token,
       required String refreshToken,
       required this.endpoint,
-      required this.name}) {
-    auth = AuthAPI(token, refreshToken, endpoint);
+      required this.name,
+      required RefreshCallback refreshCallback}) {
+    auth = AuthAPI(token, refreshToken, endpoint, refreshCallback);
     collection = CollectionAPI(auth, endpoint);
     article = ArticleAPI(auth, endpoint);
     user = UserAPI(auth, endpoint);
