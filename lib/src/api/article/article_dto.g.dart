@@ -16,6 +16,7 @@ Article _$ArticleFromJson(Map<String, dynamic> json) => Article(
       (json['images'] as List<dynamic>)
           .map((e) => OrderInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
+      ArticleMeta.fromJson(json['meta'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$ArticleToJson(Article instance) => <String, dynamic>{
@@ -24,6 +25,18 @@ Map<String, dynamic> _$ArticleToJson(Article instance) => <String, dynamic>{
       'update_at': Article._dateToJson(instance.updateAt),
       'collections': instance.collections,
       'images': instance.images,
+      'meta': instance.meta,
+    };
+
+ArticleMeta _$ArticleMetaFromJson(Map<String, dynamic> json) => ArticleMeta(
+      (json['viewcount'] as num).toInt(),
+      (json['heartcount'] as num).toInt(),
+    );
+
+Map<String, dynamic> _$ArticleMetaToJson(ArticleMeta instance) =>
+    <String, dynamic>{
+      'viewcount': instance.viewcount,
+      'heartcount': instance.heartcount,
     };
 
 ArticleLinks _$ArticleLinksFromJson(Map<String, dynamic> json) => ArticleLinks(

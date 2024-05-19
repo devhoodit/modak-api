@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:modak/modak.dart';
 import 'package:modak/src/types/uuid.dart';
 
 part 'article_dto.g.dart';
@@ -13,8 +14,10 @@ class Article {
   final List<OrderInfo> collections;
   @JsonKey(name: "images")
   final List<OrderInfo> images;
-  Article(
-      this.title, this.content, this.updateAt, this.collections, this.images);
+  @JsonKey(name: "meta")
+  final ArticleMeta meta;
+  Article(this.title, this.content, this.updateAt, this.collections,
+      this.images, this.meta);
   factory Article.fromJson(Map<String, dynamic> json) =>
       _$ArticleFromJson(json);
   Map<String, dynamic> toJson() => _$ArticleToJson(this);
@@ -22,6 +25,16 @@ class Article {
   static DateTime? _dateFromJson(String? timestamp) =>
       timestamp == null ? null : DateTime.parse(timestamp);
   static String? _dateToJson(DateTime? time) => time?.toIso8601String();
+}
+
+@JsonSerializable()
+class ArticleMeta {
+  final int viewcount;
+  final int heartcount;
+  ArticleMeta(this.viewcount, this.heartcount);
+  factory ArticleMeta.fromJson(Map<String, dynamic> json) =>
+      _$ArticleMetaFromJson(json);
+  Map<String, dynamic> toJson() => _$ArticleMetaToJson(this);
 }
 
 @JsonSerializable()
