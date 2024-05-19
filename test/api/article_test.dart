@@ -19,7 +19,11 @@ final getArticleBody = """
             "uuid": "7cd3ca3b-58bf-409b-bd65-a8efbcac7cc1",
             "order": 0
         }
-    ]
+    ],
+    "meta": {
+      "heartcount": 0,
+      "viewcount": 0
+    }
 }
 """;
 
