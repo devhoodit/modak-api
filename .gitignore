@@ -9,6 +9,9 @@ pubspec.lock
 example
 .vscode
 
+# html doc
+/doc/
+
 # test config file
 /test/test_config.yaml
 
