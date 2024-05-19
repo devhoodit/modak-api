@@ -14,7 +14,7 @@ class CollectionAPI {
   Endpoint endpoint;
   CollectionAPI(this.auth, this.endpoint);
 
-  /// get collection uuids by [user], [offset] and [limit]
+  /// get collection uuids by [username], [offset] and [limit]
   Future<List<UUID>> getCollectionsUUID(
       String username, int offset, int limit) async {
     final apires = await auth.get(

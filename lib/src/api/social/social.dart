@@ -10,7 +10,7 @@ class SocialAPI {
   Endpoint endpoint;
   SocialAPI(this.auth, this.endpoint);
 
-  /// get [target]'s [Followers]
+  /// get [targetname]'s [Followers]
   Future<Followers> getFollowers(String targetname,
       {int offset = 0, int limit = 8}) async {
     validateRange(offset, limit, 64);
@@ -20,7 +20,7 @@ class SocialAPI {
     return apires.data;
   }
 
-  /// get [target]'s [Followings]
+  /// get [targetname]'s [Followings]
   Future<Followings> getFollowings(String targetname,
       {int offset = 0, int limit = 8}) async {
     validateRange(offset, limit, 64);
@@ -30,7 +30,7 @@ class SocialAPI {
     return apires.data;
   }
 
-  /// request [target] to follow accept
+  /// request [targetname] to follow accept
   Future<void> requestFollow(String targetname) async {
     await auth.post(
         "${endpoint.baseurl}/social/follow/$targetname", (res) => null);
@@ -46,19 +46,19 @@ class SocialAPI {
     return resapi.data;
   }
 
-  /// accept [target]'s follow request
+  /// accept follow request
   Future<void> acceptFollowRequest(UUID code) async {
     await auth.post(
         "${endpoint.baseurl}/social/follow/accept/$code", (res) => null);
   }
 
-  /// reject [target]'s follow request
+  /// reject follow request
   Future<void> rejectFollowRequest(UUID code) async {
     await auth.post(
         "${endpoint.baseurl}/social/follow/reject/$code", (res) => null);
   }
 
-  /// query i follow [target]
+  /// query requester follow [targetname]
   Future<bool> isFollowing(String targetname) async {
     final apires = await auth.get(
         "${endpoint.baseurl}/social/is-following/$targetname",
@@ -66,7 +66,7 @@ class SocialAPI {
     return apires.data;
   }
 
-  /// query [target] follow me
+  /// query [targetname] follow me
   Future<bool> isFollower(String targetname) async {
     final apires = await auth.get(
         "${endpoint.baseurl}/social/is-follower/$targetname",
@@ -74,7 +74,7 @@ class SocialAPI {
     return apires.data;
   }
 
-  /// query [target] and me [Relation]
+  /// query [targetname] and me [Relation]
   Future<Relation> getRelation(String targetname) async {
     final apires = await auth.get(
         "${endpoint.baseurl}/social/relation/$targetname",
@@ -82,12 +82,12 @@ class SocialAPI {
     return apires.data;
   }
 
-  /// remove follower [target]
+  /// remove follower [targetname]
   Future<void> removeFollower(String targetname) async {
     await auth.delete("${endpoint.baseurl}/social/follower/$targetname");
   }
 
-  /// unfollow [target]
+  /// unfollow [targetname]
   Future<void> removeFollowing(String targetname) async {
     await auth.delete("${endpoint.baseurl}/social/following/$targetname");
   }

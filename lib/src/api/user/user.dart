@@ -21,15 +21,17 @@ class UserAPI {
   Endpoint endpoint;
   UserAPI(this.auth, this.endpoint);
 
+  /// set user visibility as public
   Future<void> setVisibiltyPublic() async {
-    await setVisibilty(UserVisibility.public);
+    await _setVisibilty(UserVisibility.public);
   }
 
+  /// set user visibility as private
   Future<void> setVisibiltyPrivate() async {
-    await setVisibilty(UserVisibility.private);
+    await _setVisibilty(UserVisibility.private);
   }
 
-  Future<void> setVisibilty(UserVisibility visibility) async {
+  Future<void> _setVisibilty(UserVisibility visibility) async {
     await auth.post("${endpoint.baseurl}/user/visibility/${visibility.toText}",
         (res) => null);
   }

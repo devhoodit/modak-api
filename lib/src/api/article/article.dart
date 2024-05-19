@@ -18,6 +18,7 @@ class ArticleAPI {
   Endpoint endpoint;
   ArticleAPI(this.auth, this.endpoint);
 
+  /// get [Article] by [link]
   Future<Article> getArticle(UUID link) async {
     final article = await APIRequest().get("${endpoint.baseurl}/article/$link",
         responseJsonWrapper(Article.fromJson));
@@ -28,11 +29,13 @@ class ArticleAPI {
     return ByteData.view(res.bodyBytes.buffer);
   }
 
+  /// get image [ByteData] by image [uuid]
   Future<ByteData> getArticleImage(UUID uuid) async {
     final res = await auth.get("${endpoint.baseurl}/image/$uuid", _getByteData);
     return res.data;
   }
 
+  /// post article, [title], [content], [collectionOrderInfo], [imagePaths]
   Future<void> postArticle(String title, String content,
       List<OrderInfo> collectionOrderInfo, List<String> imagePaths) async {
     var multipartFiles = <http.MultipartFile>[];
@@ -49,6 +52,7 @@ class ArticleAPI {
         "${endpoint.baseurl}/article", (res) => null, multipartFiles);
   }
 
+  /// get [username]'s article links ([offset], [limit])
   Future<ArticleLinks> getLinksByUsername(String username,
       {int offset = 0, int limit = 8}) async {
     validateRange(offset, limit, 64);
@@ -58,10 +62,12 @@ class ArticleAPI {
     return links.data;
   }
 
+  /// delete [link] article
   Future<void> deleteArticleByLink(UUID link) async {
     await auth.delete("${endpoint.baseurl}/article/$link");
   }
 
+  /// post [comment] on [link] article
   Future<void> postComment(UUID link, String comment) async {
     await auth.post(
         "${endpoint.baseurl}/article/$link/comment",
@@ -69,6 +75,7 @@ class ArticleAPI {
         (res) => null);
   }
 
+  /// get list of [Comment] of [link] article ([offset], [limit])
   Future<List<Comment>> getComments(UUID link,
       {int offset = 0, int limit = 16}) async {
     validateRange(offset, limit, 64);
@@ -81,12 +88,14 @@ class ArticleAPI {
     return comments.data;
   }
 
+  /// get requesters heart state of [link] article
   Future<bool> getHeartState(UUID link) async {
     final heartState = await auth.get("${endpoint.baseurl}/article/$link/heart",
         responseJsonWrapper(HeartState.fromJson));
     return heartState.data.state;
   }
 
+  /// get heart count of [link] article
   Future<int> getHeartCount(UUID link) async {
     final heartCount = await auth.get(
         "${endpoint.baseurl}/article/$link/heart/count",
