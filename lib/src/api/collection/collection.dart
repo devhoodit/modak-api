@@ -49,8 +49,10 @@ class CollectionAPI {
 
     final imageFile = await http.MultipartFile.fromPath('image', imagePath);
     multipatFiles.add(imageFile);
-    final uuid = await auth.multipart<UUID>("${endpoint.baseurl}/collection/",
-        responseJsonWrapper((json) => json["uuid"] ?? ""), multipatFiles);
+    final uuid = await auth.multipart(
+        "${endpoint.baseurl}/collection/",
+        responseJsonWrapper((json) => UUID.fromJson(json["uuid"])),
+        multipatFiles);
     return uuid.data;
   }
 
