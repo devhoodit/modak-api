@@ -52,6 +52,7 @@ class ArticleAPI {
         "${endpoint.baseurl}/article", (res) => null, multipartFiles);
   }
 
+  /// get public [ArticleLinks]
   Future<ArticleLinks> getPublicLinks({int offset = 0, int limit = 16}) async {
     validateRange(offset, limit, 64);
     final links = await auth.get(
