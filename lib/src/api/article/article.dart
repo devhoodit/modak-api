@@ -52,12 +52,20 @@ class ArticleAPI {
         "${endpoint.baseurl}/article", (res) => null, multipartFiles);
   }
 
+  Future<ArticleLinks> getPublicLinks({int offset = 0, int limit = 16}) async {
+    validateRange(offset, limit, 64);
+    final links = await auth.get(
+        "${endpoint.baseurl}/article/get-links?offset=$offset&limit=$limit",
+        responseJsonWrapper(ArticleLinks.fromJson));
+    return links.data;
+  }
+
   /// get [username]'s article links ([offset], [limit])
   Future<ArticleLinks> getLinksByUsername(String username,
       {int offset = 0, int limit = 8}) async {
     validateRange(offset, limit, 64);
     final links = await auth.get(
-        "${endpoint.baseurl}/article/get-links/$username",
+        "${endpoint.baseurl}/article/get-links/$username?offset=$offset&limit=$limit",
         responseJsonWrapper(ArticleLinks.fromJson));
     return links.data;
   }
